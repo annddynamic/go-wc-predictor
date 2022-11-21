@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"go-wc-predictor/client"
 	"log"
 	"net/http"
@@ -17,7 +18,7 @@ func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
 
 	query := r.URL.Query()
 	date := query.Get("date") //filters="color"
-
+	fmt.Println()
 	if date == "" {
 		_, err := w.Write([]byte("date required!"))
 		if err != nil {
@@ -27,7 +28,7 @@ func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := srv.client.GetMatches(date)
-
+	//
 	w.WriteHeader(200)
 	_, err := w.Write(response)
 	if err != nil {
@@ -41,5 +42,6 @@ func StartServer() {
 	server := &Server{client: client.NewClient()}
 
 	http.HandleFunc("/api/matches", server.matches)
-	log.Fatal(http.ListenAndServe("138.68.109.195:8080", nil))
+	fmt.Println("Starting server at: 138.68.109.195:8080")
+	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }

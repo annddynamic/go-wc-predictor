@@ -12,13 +12,11 @@ type Client struct {
 }
 
 func (c *Client) GetMatches(date string) []byte {
-	req, err := http.NewRequest("GET", "https://www.fotmob.com/api/matches?timezone=Europe%2FTirane", nil)
+	req, err := http.NewRequest("GET", "https://www.fotmob.com/api/matches?timezone=Europe%2FTirane&date="+date, nil)
 	if err != nil {
 		log.Fatal("error %s", err)
 	}
 
-	q := req.URL.Query()
-	q.Add("date", date)
 	req.Header.Add("Accept", `application/json`)
 	resp, err := c.client.Do(req)
 	if err != nil {
@@ -33,6 +31,6 @@ func (c *Client) GetMatches(date string) []byte {
 }
 
 func NewClient() Client {
-	client := &Client{http.Client{Timeout: time.Duration(1) * time.Second}}
+	client := &Client{http.Client{Timeout: time.Duration(5) * time.Second}}
 	return *client
 }
