@@ -1,8 +1,8 @@
 package main
 
-import "go-wc-predictor/client"
+import "go-wc-predictor/server"
 
 func main() {
-	println("test")
-	client.Te()
+
+	server.StartServer()
 }
