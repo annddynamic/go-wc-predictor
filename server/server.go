@@ -11,6 +11,10 @@ type Server struct {
 }
 
 func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	query := r.URL.Query()
 	date := query.Get("date") //filters="color"
 
@@ -37,5 +41,5 @@ func StartServer() {
 	server := &Server{client: client.NewClient()}
 
 	http.HandleFunc("/api/matches", server.matches)
-	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+	log.Fatal(http.ListenAndServe("138.68.109.195:8080", nil))
 }
