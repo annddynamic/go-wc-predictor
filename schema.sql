@@ -1,0 +1,20 @@
+CREATE TABLE USERS(
+username CHAR(20) PRIMARY KEY NOT NULL,
+password CHAR(20) NOT NULL);
+CREATE TABLE MATCHES(
+match CHAR(40) PRIMARY KEY NOT NULL,
+homeTeam char(30),
+awayTeam char(30),
+homeScore INT,
+awayScore INT);
+CREATE TABLE PREDICTIONS(
+match CHAR(20) NOT NULL,
+user CHAR(20) NOT NULL,
+predictedHomeScore INT,
+predictedAwayScore INT
+);
+INSERT INTO USERS VALUES('myrteza', '0112');
+INSERT INTO USERS VALUES('ardian', '0106');
+INSERT INTO USERS VALUES('ilir', '2002');
+INSERT INTO USERS VALUES('hana', '0802');
+INSERT INTO USERS VALUES('vigan', '3003');
