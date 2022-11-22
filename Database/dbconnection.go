@@ -18,7 +18,7 @@ func GetInstance() *sql.DB {
 		defer lock.Unlock()
 		if singleInstance == nil {
 			fmt.Println("Creating single instance now.")
-			db, err := sql.Open("sqlite3", "./names.db")
+			db, err := sql.Open("sqlite3", "./wc-predictor.db")
 			if err != nil {
 				log.Fatal(err)
 			}
