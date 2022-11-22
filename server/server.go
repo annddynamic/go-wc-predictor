@@ -48,6 +48,7 @@ func (srv *Server) predict(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Printf("server: could not read request body: %s\n", err)
 	}
+
 	/*
 		reqBody should be:
 		[
@@ -77,6 +78,7 @@ func StartServer() {
 
 	http.HandleFunc("/api/matches", server.matches)
 	http.HandleFunc("/api/predict", server.predict)
+	//http.HandleFunc("/api/predict", server.predict)
 	fmt.Println("Starting server at: 138.68.109.195:443")
 	log.Fatal(http.ListenAndServe("localhost:5000", nil))
 }
