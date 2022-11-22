@@ -43,12 +43,11 @@ func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
 
 // post
 func (srv *Server) predict(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 	switch r.Method {
 	case http.MethodPost:
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-		w.Header().Set("Content-Type", "application/json")
-
 		reqBody, err := io.ReadAll(r.Body)
 		if err != nil {
 			fmt.Printf("server: could not read request body: %s\n", err)
@@ -69,7 +68,8 @@ func (srv *Server) predict(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		srv.respond(w, "Internal server error")
 		return
-
+	case "OPTIONS":
+		w.WriteHeader(200)
 	default:
 		http.Error(w, fmt.Sprintf("method %s is not allowed", r.Method), http.StatusMethodNotAllowed)
 	}

@@ -5,6 +5,10 @@ import (
 	"log"
 )
 
+type Predictions struct {
+	Predictions []Prediction `json:"predictions"`
+}
+
 type Prediction struct {
 	Match               string `json:"match"`
 	User                string `json:"user"`
