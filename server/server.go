@@ -14,10 +14,16 @@ type Server struct {
 	client client.Client
 }
 
-func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
+func (srv *Server) allowCors(w http.ResponseWriter) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
+}
+
+func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
+
+	srv.allowCors(w)
 
 	query := r.URL.Query()
 	date := query.Get("date") //filters="color"
@@ -43,9 +49,9 @@ func (srv *Server) matches(w http.ResponseWriter, r *http.Request) {
 
 // post
 func (srv *Server) predict(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
+
+	srv.allowCors(w)
+
 	switch r.Method {
 	case http.MethodPost:
 		reqBody, err := io.ReadAll(r.Body)
@@ -98,7 +104,6 @@ func StartServer() {
 
 	http.HandleFunc("/api/matches", server.matches)
 	http.HandleFunc("/api/predict", server.predict)
-	//http.HandleFunc("/api/predict", server.predict)
 	fmt.Println("Starting server at: localhost:5000")
 	log.Fatal(http.ListenAndServe("localhost:5000", nil))
 }
