@@ -53,14 +53,15 @@ func (srv *Server) predict(w http.ResponseWriter, r *http.Request) {
 			fmt.Printf("server: could not read request body: %s\n", err)
 		}
 
-		var prediction Models.Prediction
+		prediction := Models.Predictions{}
 		err = json.Unmarshal(reqBody, &prediction)
 
 		if err != nil {
-			log.Fatal("Error unmarshaling json: ", err)
+			fmt.Println("Error unmarshaling json: ", err)
+			return
 		}
 
-		if prediction.Insert(prediction) {
+		if prediction.InsertPredictions(prediction) {
 			w.WriteHeader(200)
 			srv.respond(w, "Success")
 			return
